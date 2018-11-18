@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: thymeleaf-service
+  thymeleaf:
+    #设置thymeleaf的mode格式，默认值是HTML5，但是过于严格，所以改为LEGACYHTML5，需要导入nekohtml包
+    mode: LEGACYHTML5
+    #启动thymeleaf热部署
+    cache: false
