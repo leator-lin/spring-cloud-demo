@@ -4,28 +4,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.define</groupId>
-	<artifactId>spring-cloud-demo</artifactId>
+	<artifactId>springcloud-low-beta-test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 
-	<modules>
-		<module>springcloud-activiti</module>
-		<module>springcloud-dubbo</module>
-		<module>springcloud-eureka-client</module>
-		<module>springcloud-eureka-server</module>
-		<module>springcloud-feign</module>
-		<module>springcloud-ribbon</module>
-		<module>springcloud-thymeleaf</module>
-		<module>springcloud-low-beta-test</module>
-	</modules>
-
-	<name>spring-cloud-demo</name>
-	<description>SpringCloud的封装项目</description>
+	<name>springcloud-low-beta-test</name>
+	<description>SpringCloud低版本模块，主要是用于《SpringCloud实战》的源码分析，SpringCloud高版本有所改动</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.6.RELEASE</version>
+		<version>1.3.7.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -33,8 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<spring-cloud.version>Finchley.SR2</spring-cloud.version>
-		<activiti.version>5.22.0</activiti.version>
+		<spring-cloud.version>Brixton.SR5</spring-cloud.version>
 	</properties>
 
 	<dependencies>
@@ -44,13 +32,17 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
-	<!--dependencyManagement用于管理依赖版本号-->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -62,5 +54,15 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
 
 </project>
