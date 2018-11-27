@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 可以通过访问http://localhost:8080/activiti/create设计一个流程
  *
  * @Author: Lea
  * @Date: 2018/11/17 11:34

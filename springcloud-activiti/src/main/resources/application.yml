@@ -17,6 +17,9 @@ spring:
     #      - **.bpmn
     #      - **.bpmn20.xml
         history-level: full
+  devtools:
+    restart:
+      enabled: true
 
 eureka:
   client:
