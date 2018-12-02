@@ -1,10 +1,16 @@
+#发现6666是谷歌的非安全端口，所以所有端口改成9开头，四位的，防止因为使用到非安全端口，导致无法使用
+server:
+  port: 9877
+
 spring:
   application:
-    name: hello-service
+    name: eurekaClient-service
+  devtools:
+    restart:
+      enabled: true
 
 eureka:
   client:
-    serviceUrl:
-      defaultZone: http://peer1:1111/eureka/
-server:
-  port:
+    service-url:
+      defaultZone: http://localhost:9876/eureka/
+
