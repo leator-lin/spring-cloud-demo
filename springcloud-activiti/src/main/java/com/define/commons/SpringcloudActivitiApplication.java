@@ -3,9 +3,8 @@ package com.define.commons;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication
 @EnableAutoConfiguration(exclude = org.activiti.spring.boot.SecurityAutoConfiguration.class)
 public class SpringcloudActivitiApplication {
 
