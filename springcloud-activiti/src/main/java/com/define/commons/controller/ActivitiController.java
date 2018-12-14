@@ -12,6 +12,7 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -64,8 +65,8 @@ public class ActivitiController {
         }
     }
 
-    @GetMapping("/deploy")
-    public String deploy(String modelId) {
+    @GetMapping("/deploy/{modelId}")
+    public String deploy(@PathVariable String modelId) {
         try {
             // 获取模型
             Model modelData = repositoryService.getModel(modelId);
@@ -92,6 +93,11 @@ public class ActivitiController {
             e.printStackTrace();
         }
         return "部署成功！";
+    }
+
+    //绑定流程
+    public String bandingProcess() {
+        return "绑定流程成功！";
     }
 
     //启动流程
