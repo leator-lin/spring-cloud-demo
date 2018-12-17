@@ -7,17 +7,22 @@ import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricDetail;
 import org.activiti.engine.history.HistoricVariableUpdate;
 import org.activiti.engine.repository.Model;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 可以通过访问http://localhost:8080/activiti/create设计一个流程
@@ -37,6 +42,9 @@ public class ActivitiController {
 
     @Autowired
     HistoryService historyService;
+
+    @Autowired
+    RepositoryService repositoryService;
 
     /**
      * 创建模型
@@ -155,5 +163,15 @@ public class ActivitiController {
                 result = (new StringBuilder(String.valueOf(piStatus))).append(":").append(comment).toString();
         }
         return result;
+    }
+
+    @GetMapping("/getProcDefIdAndNameByKey/{keyName}")
+    public Map<String, String> getProcDefIdAndNameByKey(@PathVariable String keyName) {
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().
+                processDefinitionKey(keyName).orderByProcessDefinitionVersion().desc().list().get(0);
+        Map<String, String> map = new HashMap<>();
+        map.put("procDefId", processDefinition.getId());
+        map.put("name", processDefinition.getName());
+        return map;
     }
 }
