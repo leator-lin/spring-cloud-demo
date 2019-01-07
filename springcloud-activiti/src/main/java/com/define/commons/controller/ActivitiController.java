@@ -1,5 +1,7 @@
 package com.define.commons.controller;
 
+import com.define.commons.utils.R;
+import com.define.commons.utils.TypeEnum;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.activiti.editor.constants.ModelDataJsonConstants;
@@ -173,5 +175,13 @@ public class ActivitiController {
         map.put("procDefId", processDefinition.getId());
         map.put("name", processDefinition.getName());
         return map;
+    }
+
+    @GetMapping("/stopFlow")
+    public R stopFlow(String taskId) throws Exception{
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("message", TypeEnum.REJECT.getValue());
+        taskService.complete(taskId,variables);
+        return R.ok();
     }
 }
