@@ -2,18 +2,26 @@ package com.define.commons.controller;
 
 import com.define.commons.utils.R;
 import com.define.commons.utils.TypeEnum;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.activiti.bpmn.converter.BpmnXMLConverter;
+import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.bpmn.model.FlowElement;
+import org.activiti.bpmn.model.SequenceFlow;
 import org.activiti.editor.constants.ModelDataJsonConstants;
+import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricDetail;
 import org.activiti.engine.history.HistoricVariableUpdate;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 可以通过访问http://localhost:8080/activiti/create设计一个流程
@@ -177,11 +182,71 @@ public class ActivitiController {
         return map;
     }
 
+    @GetMapping("/deployFlow/{modelId}")
+    public R deployFlow(@PathVariable String modelId) throws Exception{
+        // 获取模型
+        Model modelData = repositoryService.getModel(modelId);
+        byte[] bytes = repositoryService.getModelEditorSource(modelData.getId());
+
+        if (bytes == null) {
+//            return new RS(HttpStatus.ERROR.getCode(),"模型数据为空，请先设计流程并成功保存，再进行发布。");
+            return R.ok();
+        }
+
+        JsonNode modelNode = new ObjectMapper().readTree(bytes);
+
+        BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
+        if (model.getProcesses().size() == 0) {
+//            return new RS(HttpStatus.ERROR.getCode(),"数据模型不符要求，请至少设计一条主线流程。");
+            return R.error();
+        }
+        byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(model);
+
+        // 发布流程
+        String processName = modelData.getName() + ".bpmn20.xml";
+        Deployment deployment = repositoryService.createDeployment().name(modelData.getName()).addString(processName, new String(bpmnBytes, "UTF-8")).deploy();
+        modelData.setDeploymentId(deployment.getId());
+        repositoryService.saveModel(modelData);
+
+//        return new RS(HttpStatus.OK.getCode(),"部署成功！");
+        return R.ok();
+    }
+
+    // 启动流程
+    @GetMapping("/startFlow/{procDefKey}")
+    public R startFlow(@PathVariable String procDefKey) throws Exception{
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("message", "镇街收件");
+        ProcessInstance procIns = runtimeService.startProcessInstanceByKey(procDefKey, variables);
+        if(ObjectUtils.isEmpty(procIns)) {
+            return R.error();
+        }
+        return R.ok();
+    }
+
     @GetMapping("/stopFlow")
     public R stopFlow(String taskId) throws Exception{
         Map<String, Object> variables = new HashMap<>();
         variables.put("message", TypeEnum.REJECT.getValue());
         taskService.complete(taskId,variables);
         return R.ok();
+    }
+
+    //查询任务节点有多少个分支
+    private List<SequenceFlow> getTaskBranch(String procDefId, String taskDefId) {
+        BpmnModel model = repositoryService.getBpmnModel(procDefId);
+        List<SequenceFlow> branchList = new ArrayList<>();
+        if (model != null) {
+            Collection<FlowElement> flowElements = model.getMainProcess().getFlowElements();
+            for (FlowElement e : flowElements) {
+                if (e.getClass().toString().endsWith("SequenceFlow")) {
+                    SequenceFlow sf = (SequenceFlow) e;
+                    if (sf.getSourceRef().equals(taskDefId)) {
+                        branchList.add(sf);
+                    }
+                }
+            }
+        }
+        return branchList;
     }
 }
