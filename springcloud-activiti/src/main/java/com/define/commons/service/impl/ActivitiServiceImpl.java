@@ -3,13 +3,16 @@ package com.define.commons.service.impl;
 import com.define.commons.proxy.CommonProxy;
 import com.define.commons.service.ActivitiService;
 import org.activiti.engine.RepositoryService;
+import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
+import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -121,5 +124,40 @@ public class ActivitiServiceImpl implements ActivitiService {
         RS rs = doComplete(task.getId(),destinationActivity.getId(),procDefKey,opinion,"发起申请");
         if(rs.getCode().equals(HttpStatus.ERROR.getCode()))
             throw new RuntimeException("发起申请失败！");
+    }
+
+    /**
+     * 任务办理
+     * @param variables
+     * @return
+     */
+    @Transactional
+    public RS complete(Map<String, Object> variables) {
+        String taskId = (String) variables.get("taskId");
+        if(StringUtils.isEmpty(taskId)) {
+            return new RS(HttpStatus.ERROR.getCode(),"任务id不能为空！");
+        }
+
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String procInsId = task.getProcessInstanceId();
+        String opinion = (String) variables.get("opinion");
+
+        if(StringUtils.isEmpty(opinion)){
+            variables.put("opinion", "");
+        }
+
+        List<String> targetRefList = auditView(procInsId, taskId);
+        if(CollectionUtils.isEmpty(targetRefList)) {
+            return new RS(HttpStatus.ERROR.getCode(),"审批失败：找不到下一条环节！");
+        }
+
+        // 添加批注信息
+        String processInstanceId = task.getProcessInstanceId();
+        Authentication.setAuthenticatedUserId(shiroUtils.getUser().getName());
+        taskService.addComment(taskId, processInstanceId, "UTF-8",opinion);
+        task.setDescription(opinion);
+        taskService.complete(taskId, variables);
+        saveBpmLogDo(task, variables);
+        return RS.ok();
     }
 }
