@@ -46,38 +46,45 @@ public class ActivitiController {
     @Autowired
     RepositoryService repositoryService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     /**
      * 创建模型
      */
     @RequestMapping("/create")
     public void create(HttpServletRequest request, HttpServletResponse response) {
         try {
-            ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+            // 初始化一个空模型
+            Model model = repositoryService.newModel();
 
-            RepositoryService repositoryService = processEngine.getRepositoryService();
+            // 设置一些默认信息
+            String name = "new-process";
+            String description = "";
+            int revision = 1;
+            String key = "process";
 
-            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectNode modelNode = objectMapper.createObjectNode();
+            modelNode.put(ModelDataJsonConstants.MODEL_NAME, name);
+            modelNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION, description);
+            modelNode.put(ModelDataJsonConstants.MODEL_REVISION, revision);
+
+            model.setName(name);
+            model.setKey(key);
+            model.setMetaInfo(modelNode.toString());
+
+            repositoryService.saveModel(model);
+            String id = model.getId();
+
+            // 完善ModelEditorSource
             ObjectNode editorNode = objectMapper.createObjectNode();
             editorNode.put("id", "canvas");
             editorNode.put("resourceId", "canvas");
             ObjectNode stencilSetNode = objectMapper.createObjectNode();
             stencilSetNode.put("namespace", "http://b3mn.org/stencilset/bpmn2.0#");
             editorNode.put("stencilset", stencilSetNode);
-            Model modelData = repositoryService.newModel();
-
-            ObjectNode modelObjectNode = objectMapper.createObjectNode();
-            modelObjectNode.put(ModelDataJsonConstants.MODEL_NAME, "hello1111");
-            modelObjectNode.put(ModelDataJsonConstants.MODEL_REVISION, 1);
-            String description = "hello1111";
-            modelObjectNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION, description);
-            modelData.setMetaInfo(modelObjectNode.toString());
-            modelData.setName("hello1111");
-            modelData.setKey("12313123");
-
-            //保存模型
-            repositoryService.saveModel(modelData);
-            repositoryService.addModelEditorSource(modelData.getId(), editorNode.toString().getBytes("utf-8"));
-            response.sendRedirect(request.getContextPath() + "/modeler.html?modelId=" + modelData.getId());
+            repositoryService.addModelEditorSource(id, editorNode.toString().getBytes("utf-8"));
+            response.sendRedirect(request.getContextPath() + "/modeler.html?modelId=" + model.getId());
         } catch (Exception e) {
             System.out.println("创建模型失败：");
         }

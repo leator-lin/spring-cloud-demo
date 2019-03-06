@@ -46,7 +46,7 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
 
   @RequestMapping(value="/model/{modelId}/save", method = RequestMethod.PUT)
   @ResponseStatus(value = HttpStatus.OK)
-  public void saveModel(@PathVariable String modelId, @RequestParam("name") String name,
+  public void saveModel(@PathVariable String modelId, @RequestParam("name") String name, @RequestParam("key") String key,
                         @RequestParam("json_xml") String json_xml, @RequestParam("svg_xml") String svg_xml,
                         @RequestParam("description") String description) {
     try {
@@ -59,6 +59,7 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
       modelJson.put(MODEL_DESCRIPTION, description);
       model.setMetaInfo(modelJson.toString());
       model.setName(name);
+      model.setKey(key);
 
       repositoryService.saveModel(model);
 

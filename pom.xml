@@ -16,7 +16,9 @@
 		<module>springcloud-feign</module>
 		<module>springcloud-ribbon</module>
 		<module>springcloud-thymeleaf</module>
-		<module>springcloud-low-beta-test</module>
+		<module>springcloud-mybatis</module>
+		<module>springcloud-zuul</module>
+		<module>springcloud-springboot</module>
 	</modules>
 
 	<name>spring-cloud-demo</name>
@@ -53,12 +55,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
 		</dependency>
 
 		<dependency>
