@@ -1,13 +1,13 @@
 package com.define.commons.service;
 
-import com.define.commons.conf.FeignConfig;
 import com.define.commons.util.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(value = "client-service", configuration = FeignConfig.class)
+@FeignClient(value = "client-service")
 public interface SchedualService {
-//    @RequestMapping(value = "/feign",method = RequestMethod.GET)
+
     @GetMapping("/feign")
-    R feignTest();
+    R feignTest(@RequestParam(value="name") String name);
 }

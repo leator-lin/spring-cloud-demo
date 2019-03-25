@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>springcloud-eureka-server</name>
-	<description>SpringCloud注册中心的轮子</description>
+	<description>注册中心</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -39,17 +39,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
 		</dependency>
@@ -73,10 +62,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<fork>true</fork>
-					<addResources>true</addResources>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

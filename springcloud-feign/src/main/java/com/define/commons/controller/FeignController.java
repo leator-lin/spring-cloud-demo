@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * xxx
  *
- * @Author: 自己的中文或英文名
+ * @Author: Lea
  * @Date: 2018/12/17 22:19
  */
 @RestController
@@ -20,8 +20,8 @@ public class FeignController {
     SchedualService schedualService;
 
     @GetMapping(value = "/hi")
-    public R feignTest() {
-        R r = schedualService.feignTest();
+    public R feignTest(String name) {
+        R r = schedualService.feignTest(name);
         return r;
     }
 }

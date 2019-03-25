@@ -1,7 +1,6 @@
 package com.define.commons.controller;
 
 import com.define.commons.utils.R;
-import com.define.commons.utils.TypeEnum;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -14,11 +13,13 @@ import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricDetail;
 import org.activiti.engine.history.HistoricVariableUpdate;
+import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.activiti.engine.task.TaskQuery;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
@@ -107,16 +108,18 @@ public class ActivitiController {
         //3：使用当前对象获取到流程定义的key（对象的名称就是流程定义的key）
         String key = leaveBill.getClass().getSimpleName();
         *//**
-         * 4：从Session中获取当前任务的办理人，使用流程变量设置下一个任务的办理人
-         * inputUser是流程变量的名称，
-         * 获取的办理人是流程变量的值
-         *//*
+     * 4：从Session中获取当前任务的办理人，使用流程变量设置下一个任务的办理人
+     * inputUser是流程变量的名称，
+     * 获取的办理人是流程变量的值
+     *//*
         Map<String, Object> variables = new HashMap<String,Object>();
         variables.put("inputUser", SessionContext.get().getName());//表示惟一用户
-        *//**
-         * 5：    (1)使用流程变量设置字符串（格式：LeaveBill.id的形式），通过设置，让启动的流程（流程实例）关联业务
-         (2)使用正在执行对象表中的一个字段BUSINESS_KEY（Activiti提供的一个字段），让启动的流程（流程实例）关联业务
-         *//*
+        */
+
+    /**
+     * 5：    (1)使用流程变量设置字符串（格式：LeaveBill.id的形式），通过设置，让启动的流程（流程实例）关联业务
+     * (2)使用正在执行对象表中的一个字段BUSINESS_KEY（Activiti提供的一个字段），让启动的流程（流程实例）关联业务
+     *//*
         //格式：LeaveBill.id的形式（使用流程变量）
         String objId = key+"."+id;
         variables.put("objId", objId);
@@ -124,10 +127,9 @@ public class ActivitiController {
         runtimeService.startProcessInstanceByKey(key,objId,variables);
 
     }*/
-
     public String getBusinessObjId(String taskId) {
         //1  获取任务对象
-        Task task  =  taskService.createTaskQuery().taskId(taskId).singleResult();
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 
         //2  通过任务对象获取流程实例
         ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
@@ -136,7 +138,7 @@ public class ActivitiController {
         //4 拆分业务键，拆分成“业务对象名称”和“业务对象ID”的数组
         // a=b  LeaveBill.1
         String objId = null;
-        if(StringUtils.isNotBlank(businessKey)){
+        if (StringUtils.isNotBlank(businessKey)) {
             objId = businessKey.split("\\.")[1];
         }
         return objId;
@@ -144,7 +146,7 @@ public class ActivitiController {
 
 
     /**
-     *@userFor :获得流程的变量信息  taskService.complete(taskid,variables);
+     * @userFor :获得流程的变量信息  taskService.complete(taskid,variables);
      */
     private String getWorkflowVariables(String processInstanceId, String activityInstanceId) {
         String result = "";
@@ -157,7 +159,7 @@ public class ActivitiController {
             //下一个审批人
             String piStatus = "";
             for (Iterator iterator = historicDetailList.iterator(); iterator
-                    .hasNext();) {
+                    .hasNext(); ) {
                 HistoricDetail historicDetail = (HistoricDetail) iterator
                         .next();
                 HistoricVariableUpdate variable = (HistoricVariableUpdate) historicDetail;
@@ -190,22 +192,20 @@ public class ActivitiController {
     }
 
     @GetMapping("/deployFlow/{modelId}")
-    public R deployFlow(@PathVariable String modelId) throws Exception{
+    public R deployFlow(@PathVariable String modelId) throws Exception {
         // 获取模型
         Model modelData = repositoryService.getModel(modelId);
         byte[] bytes = repositoryService.getModelEditorSource(modelData.getId());
 
         if (bytes == null) {
-//            return new RS(HttpStatus.ERROR.getCode(),"模型数据为空，请先设计流程并成功保存，再进行发布。");
-            return R.ok();
+            return R.ok("部署失败");
         }
 
         JsonNode modelNode = new ObjectMapper().readTree(bytes);
 
         BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
         if (model.getProcesses().size() == 0) {
-//            return new RS(HttpStatus.ERROR.getCode(),"数据模型不符要求，请至少设计一条主线流程。");
-            return R.error();
+            return R.error("数据模型不符要求，请至少设计一条主线流程");
         }
         byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(model);
 
@@ -214,29 +214,7 @@ public class ActivitiController {
         Deployment deployment = repositoryService.createDeployment().name(modelData.getName()).addString(processName, new String(bpmnBytes, "UTF-8")).deploy();
         modelData.setDeploymentId(deployment.getId());
         repositoryService.saveModel(modelData);
-
-//        return new RS(HttpStatus.OK.getCode(),"部署成功！");
-        return R.ok();
-    }
-
-    // 启动流程
-    @GetMapping("/startFlow/{procDefKey}")
-    public R startFlow(@PathVariable String procDefKey) throws Exception{
-        Map<String, Object> variables = new HashMap<>();
-        variables.put("message", "镇街收件");
-        ProcessInstance procIns = runtimeService.startProcessInstanceByKey(procDefKey, variables);
-        if(ObjectUtils.isEmpty(procIns)) {
-            return R.error();
-        }
-        return R.ok();
-    }
-
-    @GetMapping("/stopFlow")
-    public R stopFlow(String taskId) throws Exception{
-        Map<String, Object> variables = new HashMap<>();
-        variables.put("message", TypeEnum.REJECT.getValue());
-        taskService.complete(taskId,variables);
-        return R.ok();
+        return R.ok("部署成功");
     }
 
     //查询任务节点有多少个分支
@@ -255,5 +233,62 @@ public class ActivitiController {
             }
         }
         return branchList;
+    }
+
+    /**
+     * 根据流程实例id获取流程运行任务id集合
+     */
+    @GetMapping("/getTaskListByProcInsId")
+    public List<String> getTaskListByProcInsId(String procInstId) {
+        //创建查询对象
+        TaskQuery taskQuery = taskService.createTaskQuery();
+        //指定流程实例id，只查询某个流程的任务
+        taskQuery.processInstanceId(procInstId);
+        //获取查询列表
+        List<Task> taskList = taskQuery.list();
+        List<String> taskIdList = new ArrayList<>();
+        for (int i = 0; i < taskList.size(); i++) {
+            taskIdList.add(taskList.get(i).getId());
+        }
+        return taskIdList;
+    }
+
+    // 启动流程
+    @GetMapping("/startFlow")
+    public R startFlow(String procDefKey) throws Exception {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("user1", "窗口收件员5,窗口收件员51,窗口收件员52");
+        variables.put("user2", "业务受理员5");
+        variables.put("user3", "业务审批员5");
+        variables.put("user4", "窗口发件员5");
+        ProcessInstance procIns = runtimeService.startProcessInstanceByKey(procDefKey, variables);
+        if (ObjectUtils.isEmpty(procIns)) {
+            return R.error();
+        }
+        return R.ok();
+    }
+
+    // 任务办理
+    @GetMapping("/complete")
+    public R complete(String procInstId) throws Exception {
+        if (StringUtils.isEmpty(procInstId)) {
+            return R.error();
+        }
+        String taskId = getTaskListByProcInsId(procInstId).get(0);
+
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        // 添加批注信息
+        String processInstanceId = task.getProcessInstanceId();
+        String opinion = "接件成功";
+        taskService.addComment(taskId, processInstanceId, "UTF-8", opinion);
+        taskService.complete(taskId);
+        return R.ok("任务办理成功");
+    }
+
+    @GetMapping("/findMyTaskList")
+    public String findMyTaskList(String userId) {
+        List<Task> list = taskService
+                .createTaskQuery().taskCandidateUser(userId).list();
+        return list.get(0).getName();
     }
 }
