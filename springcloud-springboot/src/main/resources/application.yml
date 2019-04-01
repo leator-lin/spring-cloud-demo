@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: springcloud-springboot
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/spring-cloud-demo?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+    username: root
+    password: root
+    initialSize: 1
+    minIdle: 3
+    maxActive: 20
+  devtools:
+    restart:
+      enabled: true
