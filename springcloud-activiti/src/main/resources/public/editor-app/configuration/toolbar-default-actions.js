@@ -372,7 +372,6 @@ var SaveModelCtrl = [ '$rootScope', '$scope', '$http', '$route', '$location',
             json_xml: json,
             svg_xml: svgDOM,
             name: $scope.saveDialog.name,
-            key: $scope.editor.getJSON().properties["process_id"],//自己加的用来传流程的process_id作为流程模型的key
             description: $scope.saveDialog.description
         };
 

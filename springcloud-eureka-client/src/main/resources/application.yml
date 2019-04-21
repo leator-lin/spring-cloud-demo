@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: client-service
+    name: eurekaClient-service
   devtools:
     restart:
       enabled: true

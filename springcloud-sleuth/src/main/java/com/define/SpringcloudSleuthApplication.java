@@ -1,12 +1,14 @@
-package com.define.commons;
+package com.define;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringcloudFeignApplication {
+public class SpringcloudSleuthApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringcloudFeignApplication.class, args);
+		SpringApplication.run(SpringcloudSleuthApplication.class, args);
 	}
+
 }
+
