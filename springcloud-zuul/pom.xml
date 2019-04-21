@@ -4,32 +4,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.define</groupId>
-	<artifactId>spring-cloud-demo</artifactId>
+	<artifactId>springcloud-zuul</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 
-	<modules>
-		<module>springcloud-activiti</module>
-		<module>springcloud-dubbo</module>
-		<module>springcloud-eureka-client</module>
-		<module>springcloud-eureka-server</module>
-		<module>springcloud-feign</module>
-		<module>springcloud-ribbon</module>
-		<module>springcloud-thymeleaf</module>
-		<module>springcloud-mybatis</module>
-		<module>springcloud-zuul</module>
-		<module>springcloud-springboot</module>
-		<module>springcloud-config-server</module>
-		<module>springcloud-config-client</module>
-	</modules>
-
-	<name>spring-cloud-demo</name>
-	<description>SpringCloud的封装项目</description>
+	<name>springcloud-zuul</name>
+	<description>网关服务</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.6.RELEASE</version>
+		<artifactId>spring-boot-starter-parent</artifactId>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -38,30 +23,28 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Finchley.SR2</spring-cloud.version>
-		<activiti.version>5.22.0</activiti.version>
 	</properties>
 
 	<dependencies>
+		<!--<dependency>
+			<groupId>org.springframework.could</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>-->
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-netflix-eureka-client</artifactId>
+			<version>2.0.2.RELEASE</version>
 		</dependency>
 	</dependencies>
 
@@ -83,11 +66,8 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<fork>true</fork>
-					<addResources>true</addResources>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
