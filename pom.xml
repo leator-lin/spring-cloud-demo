@@ -24,6 +24,7 @@
 		<module>springcloud-activiti7</module>
 		<module>springcloud-sleuth</module>
 		<module>springcloud-gateway</module>
+		<module>springcloud-amqp</module>
 	</modules>
 
 	<name>spring-cloud-demo</name>
