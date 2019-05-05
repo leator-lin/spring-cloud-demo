@@ -11,6 +11,11 @@ management:  #actuator
         include: "*"  #打开全部请求端点
 #        include: refresh,health,info #打开部分
 
+#配置中心的更新配置的坑，2.0前调用/refresh更新配置的方法，不再适用。
+#现在的方法如下：
+#management.endpoints.web.exposure.include=refresh,health,info
+#把refresh接入点显式暴露出来，之后就可以通过POST 调用/actuator/refresh 来更新配置了
+
 spring:
   application:
     name: didispace
