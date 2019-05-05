@@ -1,0 +1,34 @@
+server:
+  port: 7003
+
+management:  #actuator
+  server:
+    port: 7003
+  endpoints:
+    web:
+#      base-path: / #默认是/actuator 前缀，可以在这里修改
+      exposure:
+        include: "*"  #打开全部请求端点
+#        include: refresh,health,info #打开部分
+
+spring:
+  application:
+    name: didispace
+  cloud:
+    config:
+      profile: dev
+      label: master
+      uri: http://localhost:7001/
+      username: user
+      password: 37cc5635-559b-4e6f-b633-7e932b813f73
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9876/eureka/
+

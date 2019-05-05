@@ -1,25 +1,20 @@
-package com.define.commons;
+package com.define;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * 基于客户端的负载均衡的轮子使用的说明：
- * 1，
- * 2，用不同的端口启动服务提供者的应用；
- * 3，启动消费者应用；
- * 4，浏览器访问：localhost:9000/ribbon-consumer
- */
+@EnableCircuitBreaker
 @EnableDiscoveryClient
-@EnableEurekaClient
 @SpringBootApplication
-public class SpringcloudRibbonApplication {
+//@SpringCloudApplication //这里可以使用SpringCloud的@SpringCloudApplication注解来修饰应用主
+						//类，点击进去看，可以看到该注解已经包含了上面的三个注解，意味着一个Spring Cloud
+						//标准应用应包含服务发现以及断路器
+public class SpringcloudHystrixApplication {
 
 	@Bean
 	@LoadBalanced
@@ -28,6 +23,7 @@ public class SpringcloudRibbonApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringcloudRibbonApplication.class, args);
+		SpringApplication.run(SpringcloudHystrixApplication.class, args);
 	}
+
 }
