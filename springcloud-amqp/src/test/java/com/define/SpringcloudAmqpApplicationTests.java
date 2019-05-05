@@ -14,6 +14,7 @@ public class SpringcloudAmqpApplicationTests {
 	@Autowired
 	private Sender sender;
 
+	@Test
 	public void hello() throws Exception {
 		sender.send();
 	}
