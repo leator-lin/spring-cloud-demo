@@ -15,6 +15,8 @@ management:  #actuator
 #现在的方法如下：
 #management.endpoints.web.exposure.include=refresh,health,info
 #把refresh接入点显式暴露出来，之后就可以通过POST 调用/actuator/refresh 来更新配置了
+#可以请求/actuator/refresh?destination=customer:9000，定位具体要刷新的应用程序，
+#也可以/actuator/refresh?destination=customer:**，该请求会触发customer服务的所有实例刷新
 
 spring:
   application:
