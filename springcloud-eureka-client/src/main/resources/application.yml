@@ -14,3 +14,11 @@ eureka:
     service-url:
       defaultZone: http://localhost:9876/eureka/
 
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            DispatcherServlet: DEBUG
+
