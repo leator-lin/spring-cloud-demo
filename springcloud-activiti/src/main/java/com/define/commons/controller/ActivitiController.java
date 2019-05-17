@@ -13,14 +13,12 @@ import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricDetail;
 import org.activiti.engine.history.HistoricVariableUpdate;
-import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,52 +87,6 @@ public class ActivitiController {
         } catch (Exception e) {
             System.out.println("创建模型失败：");
         }
-    }
-
-    /**更新请假状态，启动流程实例，让启动的流程实例关联业务*/
-    /*public void saveStartProcess(WorkflowBean workflowBean) {
-        //1：获取请假单ID，使用请假单ID，查询请假单的对象LeaveBill
-        Long id = workflowBean.getId();
-        LeaveBill leaveBill = leaveBillDao.findLeaveBillById(id);
-        //2：更新请假单的请假状态从0变成1（初始录入-->审核中）
-        leaveBill.setState(1);
-        //3：使用当前对象获取到流程定义的key（对象的名称就是流程定义的key）
-        String key = leaveBill.getClass().getSimpleName();
-        *//**
-     * 4：从Session中获取当前任务的办理人，使用流程变量设置下一个任务的办理人
-     * inputUser是流程变量的名称，
-     * 获取的办理人是流程变量的值
-     *//*
-        Map<String, Object> variables = new HashMap<String,Object>();
-        variables.put("inputUser", SessionContext.get().getName());//表示惟一用户
-        */
-
-    /**
-     * 5：    (1)使用流程变量设置字符串（格式：LeaveBill.id的形式），通过设置，让启动的流程（流程实例）关联业务
-     * (2)使用正在执行对象表中的一个字段BUSINESS_KEY（Activiti提供的一个字段），让启动的流程（流程实例）关联业务
-     *//*
-        //格式：LeaveBill.id的形式（使用流程变量）
-        String objId = key+"."+id;
-        variables.put("objId", objId);
-        //6：使用流程定义的key，启动流程实例，同时设置流程变量，同时向正在执行的执行对象表中的字段BUSINESS_KEY添加业务数据，同时让流程关联业务
-        runtimeService.startProcessInstanceByKey(key,objId,variables);
-
-    }*/
-    public String getBusinessObjId(String taskId) {
-        //1  获取任务对象
-        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-
-        //2  通过任务对象获取流程实例
-        ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
-        //3 通过流程实例获取“业务键”
-        String businessKey = pi.getBusinessKey();
-        //4 拆分业务键，拆分成“业务对象名称”和“业务对象ID”的数组
-        // a=b  LeaveBill.1
-        String objId = null;
-        if (StringUtils.isNotBlank(businessKey)) {
-            objId = businessKey.split("\\.")[1];
-        }
-        return objId;
     }
 
 
@@ -262,19 +214,35 @@ public class ActivitiController {
     }
 
     // 任务办理
+//    @GetMapping("/complete")
+//    public R complete(String procInstId) throws Exception {
+//        String taskId = getTaskListByProcInsId(procInstId).get(0);
+//
+//        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+//        // 添加批注信息
+//        String processInstanceId = task.getProcessInstanceId();
+//        String opinion = "接件成功";
+//        taskService.addComment(taskId, processInstanceId, "UTF-8", opinion);
+//        taskService.complete(taskId);
+//        return R.ok("任务办理成功");
+//    }
+
     @GetMapping("/complete")
-    public R complete(String procInstId) throws Exception {
-        if (StringUtils.isEmpty(procInstId)) {
-            return R.error();
-        }
-        String taskId = getTaskListByProcInsId(procInstId).get(0);
+    public R complete(String taskId, String opinion, String result, String message) {
 
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        Map<String, Object> variables = new HashMap<>();
+
+        variables.put("taskId", taskId);
+        variables.put("opinion", opinion);
+        variables.put("result", result);
+        variables.put("message", message);
+
         // 添加批注信息
         String processInstanceId = task.getProcessInstanceId();
-        String opinion = "接件成功";
-        taskService.addComment(taskId, processInstanceId, "UTF-8", opinion);
-        taskService.complete(taskId);
+        taskService.addComment(taskId, processInstanceId, result, opinion);
+        task.setDescription(opinion);
+        taskService.complete(taskId, variables);
         return R.ok("任务办理成功");
     }
 

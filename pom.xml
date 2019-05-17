@@ -27,6 +27,7 @@
 		<module>springcloud-amqp</module>
 		<module>springcloud-sleuth-service1</module>
 		<module>springcloud-sleuth-service2</module>
+		<module>springcloud-zipkin-server</module>
 	</modules>
 
 	<name>spring-cloud-demo</name>
