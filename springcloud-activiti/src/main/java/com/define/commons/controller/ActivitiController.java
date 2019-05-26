@@ -213,20 +213,6 @@ public class ActivitiController {
         return R.ok();
     }
 
-    // 任务办理
-//    @GetMapping("/complete")
-//    public R complete(String procInstId) throws Exception {
-//        String taskId = getTaskListByProcInsId(procInstId).get(0);
-//
-//        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-//        // 添加批注信息
-//        String processInstanceId = task.getProcessInstanceId();
-//        String opinion = "接件成功";
-//        taskService.addComment(taskId, processInstanceId, "UTF-8", opinion);
-//        taskService.complete(taskId);
-//        return R.ok("任务办理成功");
-//    }
-
     @GetMapping("/complete")
     public R complete(String taskId, String opinion, String result, String message) {
 
@@ -251,5 +237,11 @@ public class ActivitiController {
         List<Task> list = taskService
                 .createTaskQuery().taskCandidateUser(userId).list();
         return list.get(0).getName();
+    }
+
+    @GetMapping("/doRollBack")
+    public R doRollBack(String taskId, String opinion, String result, String message) {
+
+        return R.ok();
     }
 }

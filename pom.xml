@@ -15,7 +15,6 @@
 		<module>springcloud-eureka-server</module>
 		<module>springcloud-feign</module>
 		<module>springcloud-ribbon</module>
-		<module>springcloud-thymeleaf</module>
 		<module>springcloud-mybatis</module>
 		<module>springcloud-zuul</module>
 		<module>springcloud-springboot</module>
