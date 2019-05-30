@@ -1,5 +1,6 @@
 package com.define.commons.controller;
 
+import com.define.commons.service.DbTaskReturnService;
 import com.define.commons.utils.R;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,6 +52,9 @@ public class ActivitiController {
 
     @Autowired
     RepositoryService repositoryService;
+
+    @Autowired
+    DbTaskReturnService dbTaskReturnService;
 
     /**
      * 创建模型
@@ -240,8 +244,13 @@ public class ActivitiController {
     }
 
     @GetMapping("/doRollBack")
-    public R doRollBack(String taskId, String opinion, String result, String message) {
-
-        return R.ok();
+    public R doRollBack(String currentTaskId, String backToTaskId) {
+        int result = dbTaskReturnService.dbBackTo(currentTaskId, backToTaskId);
+        if(result == 1) {
+            return R.ok();
+        }
+        else {
+            return R.error();
+        }
     }
 }
