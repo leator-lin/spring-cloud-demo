@@ -68,6 +68,17 @@
 			<version>1.16.18</version>
 			<scope>provided</scope>
 		</dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.11</version>
+        </dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.8.1</version>
+		</dependency>
 	</dependencies>
 
 	<!--dependencyManagement用于管理依赖版本号-->

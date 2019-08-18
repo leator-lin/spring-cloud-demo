@@ -253,4 +253,11 @@ public class ActivitiController {
             return R.error();
         }
     }
+
+    @GetMapping("/getFlowElement")
+    public R getFlowElement(String procDefId) {
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(procDefId);
+        Collection<FlowElement> flowElementList = bpmnModel.getProcesses().get(0).getFlowElements();
+        return R.ok();
+    }
 }

@@ -15,7 +15,6 @@
 		<module>springcloud-eureka-server</module>
 		<module>springcloud-feign</module>
 		<module>springcloud-ribbon</module>
-		<module>springcloud-mybatis</module>
 		<module>springcloud-zuul</module>
 		<module>springcloud-springboot</module>
 		<module>springcloud-config-server</module>
@@ -27,6 +26,8 @@
 		<module>springcloud-sleuth-service1</module>
 		<module>springcloud-sleuth-service2</module>
 		<module>springcloud-zipkin-server</module>
+		<module>springcloud-mybatis-plus</module>
+		<module>springcloud-kafka</module>
 	</modules>
 
 	<name>spring-cloud-demo</name>
