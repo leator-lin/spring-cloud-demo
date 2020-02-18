@@ -18,7 +18,7 @@
  */
 
 /*
- * Controller for morph shape selection
+ * controller for morph shape selection
  */
 
 var KisBpmShapeSelectionCtrl = [ '$rootScope', '$scope', '$timeout', '$translate', function($rootScope, $scope, $timeout, $translate) {

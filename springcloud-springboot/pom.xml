@@ -74,6 +74,11 @@
 			<artifactId>shiro-spring-boot-web-starter</artifactId>
 			<version>1.4.0-RC2</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.11</version>
+		</dependency>
 
 	</dependencies>
 

@@ -77,7 +77,7 @@ function $RouteProvider(){
    *
    *    Object properties:
    *
-   *    - `controller` – `{(string|function()=}` – Controller fn that should be associated with
+   *    - `controller` – `{(string|function()=}` – controller fn that should be associated with
    *      newly created scope or the name of a {@link angular.Module#controller registered
    *      controller} if passed as a string.
    *    - `controllerAs` – `{string=}` – A controller alias name. If present the controller will be
@@ -423,7 +423,7 @@ function $RouteProvider(){
      * @description
      *
      * The `reloadOnSearch` property has been set to false, and we are reusing the same
-     * instance of the Controller.
+     * instance of the controller.
      */
 
     var forceReload = false,
