@@ -68,6 +68,13 @@
 			<version>1.16.18</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring-boot-web-starter</artifactId>
+			<version>1.4.0-RC2</version>
+		</dependency>
+
 	</dependencies>
 
 	<!--dependencyManagement用于管理依赖版本号-->

@@ -13,6 +13,7 @@ import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricDetail;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricVariableUpdate;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
@@ -21,6 +22,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +57,9 @@ public class ActivitiController {
 
     @Autowired
     DbTaskReturnService dbTaskReturnService;
+
+    @Autowired
+    ManagementService managementService;
 
     /**
      * 创建模型
@@ -214,7 +219,7 @@ public class ActivitiController {
         if (ObjectUtils.isEmpty(procIns)) {
             return R.error();
         }
-        return R.ok();
+        return R.ok(procIns.getId());
     }
 
     @GetMapping("/complete")
@@ -252,5 +257,34 @@ public class ActivitiController {
         else {
             return R.error();
         }
+    }
+
+    @GetMapping("/deleteDeployment")
+    public void deleteDeployment(String deployId) {
+        repositoryService.deleteDeployment(deployId);
+    }
+
+    @GetMapping("/getTaskList")
+    public R getTaskList(String procInsId) {
+        R r = new R();
+        TaskQuery taskQuery = taskService.createTaskQuery();
+        //指定流程实例id，只查询某个流程的任务
+        taskQuery.processInstanceId(procInsId);
+        //获取查询列表
+        return r.put("taskList", taskQuery.list());
+    }
+
+    @GetMapping("/getTableName")
+    public R getTableName(String className) {
+        R r = new R();
+        String tableName = managementService.getTableName(Task.class);
+        return r.put("tableName", tableName);
+    }
+
+    @GetMapping(value = "/findHisTaskByTaskId", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public R findHisTaskByTaskId(String taskId){
+        R r = new R();
+        HistoricTaskInstance hisTask = historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
+        return r.put("hisTask", hisTask);
     }
 }

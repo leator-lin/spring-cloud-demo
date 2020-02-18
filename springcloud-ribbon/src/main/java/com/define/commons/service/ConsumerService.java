@@ -15,6 +15,6 @@ public class ConsumerService {
     RestTemplate restTemplate;
 
     public String consumerService(String name) {
-        return restTemplate.getForObject("http://eurekaClient-service/hi?"+name, String.class);
+        return restTemplate.getForObject("http://eurekaClient-service/hi?name="+name, String.class);
     }
 }
