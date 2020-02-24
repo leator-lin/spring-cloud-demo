@@ -1,9 +1,8 @@
 package com.define.commons.controller;
 
+import com.define.commons.domain.User;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *
@@ -22,7 +21,17 @@ public class HelloController {
     }
 
     @GetMapping("/feign")
-    public String feignTest(String name) {
+    public String feignTest(@RequestParam String name) {
         return "hi！" + name;
+    }
+
+    @GetMapping("/feign1")
+    public User feignTest1(@RequestHeader String name, @RequestHeader Integer age) {
+        return new User(name, age);
+    }
+
+    @PostMapping("/feign2")
+    public String feignTest2(@RequestBody User user) {
+        return "Hello " + user.getName() + ", " + user.getAge();
     }
 }

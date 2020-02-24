@@ -1,5 +1,6 @@
 package com.define.commons.controller;
 
+import com.define.commons.domain.User;
 import com.define.commons.service.SchedualService;
 import com.define.commons.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,17 @@ public class FeignController {
     @Autowired
     SchedualService schedualService;
 
-    @GetMapping(value = "/hi")
-    public R feignTest(String name) {
-        R r = schedualService.feignTest(name);
-        return r;
+    @GetMapping(value = "/feignTest1")
+    public R feignTest1(String name) {
+        String result = schedualService.feignTest(name);
+        return R.ok(result);
+    }
+
+    @GetMapping(value = "/feignTest2")
+    public R feignTest2() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(schedualService.feignTest1("林银城", 27)).append("\n");
+        sb.append(schedualService.feignTest2(new User("林银城", 27))).append("\n");
+        return R.ok(sb.toString());
     }
 }

@@ -8,7 +8,7 @@
     <select id="getUsers" resultType="User">
         SELECT
             u.id,
-            u.username,
+            u.name,
             u.password,
             u.address,
             u.email

@@ -18,7 +18,7 @@ public class ConsumerController {
     ConsumerService consumerService;
 
     @GetMapping("/hi")
-    public String helloConsumer(@RequestParam(value = "name") String name) {
+    public String helloConsumer(@RequestParam(value = "name") String name) throws Exception {
         return consumerService.consumerService(name);
     }
 }

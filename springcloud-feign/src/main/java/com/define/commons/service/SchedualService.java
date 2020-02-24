@@ -1,13 +1,18 @@
 package com.define.commons.service;
 
-import com.define.commons.util.R;
+import com.define.commons.domain.User;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-@FeignClient(value = "client-service")
+@FeignClient(value = "eurekaClient-service")
 public interface SchedualService {
 
     @GetMapping("/feign")
-    R feignTest(@RequestParam(value="name") String name);
+    String feignTest(@RequestParam("name") String name);
+
+    @GetMapping("/feign1")
+    User feignTest1(@RequestHeader("name") String name, @RequestHeader("age") Integer age);
+
+    @PostMapping("/feign2")
+    String feignTest2(@RequestBody User user);
 }

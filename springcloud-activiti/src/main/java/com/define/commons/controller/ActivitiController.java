@@ -1,6 +1,4 @@
 package com.define.commons.controller;
-
-import com.define.commons.service.DbTaskReturnService;
 import com.define.commons.utils.R;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,9 +52,6 @@ public class ActivitiController {
 
     @Autowired
     RepositoryService repositoryService;
-
-    @Autowired
-    DbTaskReturnService dbTaskReturnService;
 
     @Autowired
     ManagementService managementService;
@@ -246,17 +241,6 @@ public class ActivitiController {
         List<Task> list = taskService
                 .createTaskQuery().taskCandidateUser(userId).list();
         return list.get(0).getName();
-    }
-
-    @GetMapping("/doRollBack")
-    public R doRollBack(String currentTaskId, String backToTaskId) {
-        int result = dbTaskReturnService.dbBackTo(currentTaskId, backToTaskId);
-        if(result == 1) {
-            return R.ok();
-        }
-        else {
-            return R.error();
-        }
     }
 
     @GetMapping("/deleteDeployment")

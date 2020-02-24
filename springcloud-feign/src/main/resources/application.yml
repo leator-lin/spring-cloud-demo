@@ -1,0 +1,21 @@
+#发现6666是谷歌的非安全端口，所以所有端口改成9开头，四位的，防止因为使用到非安全端口，导致无法使用
+server:
+  port: 9880
+
+spring:
+  application:
+    name: feign-service
+  devtools:
+    restart:
+      enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9876/eureka/
+
+#因为feign默认时间是1s，所以最好设置下超时时间
+#请求处理的超时时间
+ribbon.ReadTimeout: 12000
+#请求连接的超时时间
+ribbon.ConnectTimeout: 3000
