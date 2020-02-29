@@ -1,0 +1,14 @@
+server:
+  port: 9881
+
+spring:
+  application:
+    name: feign-api-service
+  devtools:
+    restart:
+      enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9876/eureka/
