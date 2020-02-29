@@ -6877,7 +6877,7 @@ var r20 = /%20/g,
 	allTypes = ["*/"] + ["*"];
 
 // #8138, IE may throw an exception when accessing
-// a field from window.location if document.domain has been set
+// a field from window.location if document.dto has been set
 try {
 	ajaxLocation = location.href;
 } catch( e ) {
@@ -7247,7 +7247,7 @@ jQuery.extend({
 			transport,
 			// timeout handle
 			timeoutTimer,
-			// Cross-domain detection vars
+			// Cross-dto detection vars
 			parts,
 			// The jqXHR state
 			state = 0,
@@ -7452,7 +7452,7 @@ jQuery.extend({
 		// Extract dataTypes list
 		s.dataTypes = jQuery.trim( s.dataType || "*" ).toLowerCase().split( rspacesAjax );
 
-		// Determine if a cross-domain request is in order
+		// Determine if a cross-dto request is in order
 		if ( s.crossDomain == null ) {
 			parts = rurl.exec( s.url.toLowerCase() );
 			s.crossDomain = !!( parts &&
@@ -7938,7 +7938,7 @@ jQuery.ajaxPrefilter( "script", function( s ) {
 // Bind script tag hack transport
 jQuery.ajaxTransport( "script", function(s) {
 
-	// This transport only deals with cross domain requests
+	// This transport only deals with cross dto requests
 	if ( s.crossDomain ) {
 
 		var script,
@@ -8047,7 +8047,7 @@ jQuery.ajaxSettings.xhr = window.ActiveXObject ?
 if ( jQuery.support.ajax ) {
 
 	jQuery.ajaxTransport(function( s ) {
-		// Cross domain only allowed if supported through XMLHttpRequest
+		// Cross dto only allowed if supported through XMLHttpRequest
 		if ( !s.crossDomain || jQuery.support.cors ) {
 
 			var callback;
@@ -8081,15 +8081,15 @@ if ( jQuery.support.ajax ) {
 					}
 
 					// X-Requested-With header
-					// For cross-domain requests, seeing as conditions for a preflight are
+					// For cross-dto requests, seeing as conditions for a preflight are
 					// akin to a jigsaw puzzle, we simply never set it to be sure.
 					// (it can always be set on a per-request basis or even using ajaxSetup)
-					// For same-domain requests, won't change header if already provided.
+					// For same-dto requests, won't change header if already provided.
 					if ( !s.crossDomain && !headers["X-Requested-With"] ) {
 						headers[ "X-Requested-With" ] = "XMLHttpRequest";
 					}
 
-					// Need an extra try/catch for cross domain requests in Firefox 3
+					// Need an extra try/catch for cross dto requests in Firefox 3
 					try {
 						for ( i in headers ) {
 							xhr.setRequestHeader( i, headers[ i ] );
@@ -8148,7 +8148,7 @@ if ( jQuery.support.ajax ) {
 									responses.text = xhr.responseText;
 
 									// Firefox throws an exception when accessing
-									// statusText for faulty cross-domain requests
+									// statusText for faulty cross-dto requests
 									try {
 										statusText = xhr.statusText;
 									} catch( e ) {

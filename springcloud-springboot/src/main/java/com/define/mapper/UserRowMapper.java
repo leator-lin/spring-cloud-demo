@@ -1,6 +1,6 @@
 package com.define.mapper;
 
-import com.define.domain.User;
+import com.define.dto.User;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

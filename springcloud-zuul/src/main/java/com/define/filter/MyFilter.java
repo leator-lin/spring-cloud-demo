@@ -12,21 +12,26 @@ import javax.servlet.http.HttpServletRequest;
 public class MyFilter extends ZuulFilter {
 
     private static Logger log = LoggerFactory.getLogger(MyFilter.class);
+
+    //过滤器类型，这里定义为pre，代表会在请求被路由之前执行
     @Override
     public String filterType() {
         return "pre";
     }
 
+    //过滤器的执行顺序，当请求在一个阶段中存在多个过滤器时，需要根据该方法返回的值来依次执行
     @Override
     public int filterOrder() {
         return 0;
     }
 
+    //判断该过滤器是否需要被执行
     @Override
     public boolean shouldFilter() {
         return true;
     }
 
+    //过滤器的具体逻辑
     @Override
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
@@ -38,7 +43,7 @@ public class MyFilter extends ZuulFilter {
             ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(401);
             try {
-                ctx.getResponse().getWriter().write("token is empty");
+                ctx.getResponse().getWriter().write("token is empty" + "\n");
             }catch (Exception e){}
 
             return null;

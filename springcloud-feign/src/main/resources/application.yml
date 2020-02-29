@@ -18,4 +18,14 @@ eureka:
 #请求处理的超时时间
 ribbon.ReadTimeout: 12000
 #请求连接的超时时间
-ribbon.ConnectTimeout: 3000
+ribbon.ConnectTimeout: 12000
+
+ribbon.OkToRetryOnAllOperations: true
+ribbon.MaxAutoRetriesNextServer: 2
+ribbon.MaxAutoRetries: 1
+
+#Hystrix的超时时间需要大于Ribbon的超时时间，否则Hystrix命令超时后，该命令直接熔断
+#重试机制就没有任何意义了
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 20000
+
+

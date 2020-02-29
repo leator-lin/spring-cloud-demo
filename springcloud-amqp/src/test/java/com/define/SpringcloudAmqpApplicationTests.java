@@ -1,6 +1,6 @@
 package com.define;
 
-import com.define.domain.Sender;
+import com.define.dto.Sender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

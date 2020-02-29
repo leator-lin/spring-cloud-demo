@@ -14,6 +14,7 @@
 		<module>springcloud-eureka-client</module>
 		<module>springcloud-eureka-server</module>
 		<module>springcloud-feign</module>
+		<module>springcloud-feign-api</module>
 		<module>springcloud-mybatis</module>
 		<module>springcloud-ribbon</module>
 		<module>springcloud-zuul</module>

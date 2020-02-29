@@ -2,16 +2,19 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:9876/eureka/
+
 server:
-  port: 9880
+  port: 5555
 spring:
   application:
     name: service-zuul
+
 zuul:
   routes:
     api-a:
       path: /api-a/**
-      serviceId: service-ribbon
+      serviceId: feign-service
     api-b:
       path: /api-b/**
-      serviceId: service-feign
+      serviceId: eurekaClient-service
+  retryable: false

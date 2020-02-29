@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.define.commons</groupId>
+	<groupId>com.define</groupId>
 	<artifactId>springcloud-feign</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -53,10 +53,18 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>5.0.10.RELEASE</version>
+		</dependency>
+
+		<!-- 使用Spring Cloud Feign的继承特性实现REST接口定义的复用 -->
+		<dependency>
+			<groupId>com.define</groupId>
+			<artifactId>springcloud-feign-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

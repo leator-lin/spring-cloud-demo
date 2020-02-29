@@ -1,6 +1,6 @@
 package com.define.repository;
 
-import com.define.domain.User;
+import com.define.dto.User;
 import com.define.mapper.UserRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
