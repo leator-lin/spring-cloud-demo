@@ -16,16 +16,42 @@ eureka:
 
 #因为feign默认时间是1s，所以最好设置下超时时间
 #请求处理的超时时间
-ribbon.ReadTimeout: 12000
+ribbon:
+  ReadTimeout: 12000
 #请求连接的超时时间
-ribbon.ConnectTimeout: 12000
-
-ribbon.OkToRetryOnAllOperations: true
-ribbon.MaxAutoRetriesNextServer: 2
-ribbon.MaxAutoRetries: 1
+  ConnectTimeout: 12000
+  OkToRetryOnAllOperations: true
+  MaxAutoRetriesNextServer: 2
+  MaxAutoRetries: 1
 
 #Hystrix的超时时间需要大于Ribbon的超时时间，否则Hystrix命令超时后，该命令直接熔断
 #重试机制就没有任何意义了
-hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 20000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+
+
+feign:
+#  hystrix:
+#    enabled: false #全局禁用Hystrix
+  compression:
+    request:
+      enabled: true #对请求进行GZIP压缩，减少通信过程中的性能损耗
+      mime-types: text/xml,application/xml,application/json #开启压缩可以有效节约网络资源，但是会增加CPU压力，建议把最小压缩的文档大小适度调大一点
+      min-request-size: 2048
+    response:
+      enabled: true #对响应进行GZIP压缩，减少通信过程中的性能损耗
+
+logging:
+  level:
+    com:
+      define:
+        service:
+          SchedualService: DEBUG
+
 
 

@@ -2,7 +2,6 @@ package com.define;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -18,8 +17,7 @@ import org.springframework.web.client.RestTemplate;
  * 	2.2，创建RestTemplate的Spring Bean实例，并通过
  * 		@LoadBalanced注解开启客户端负载均衡
  */
-//使用@EnableCircuitBreaker开启断路器功能
-@EnableCircuitBreaker
+
 @EnableDiscoveryClient
 @EnableEurekaClient
 @SpringBootApplication

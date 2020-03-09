@@ -46,28 +46,6 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
 		</dependency>
-
-		<!-- 导入断路器所需的依赖 -->
-		<!-- 第一种依赖导入方法 -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-		</dependency>
-
-		<!-- 第二种依赖导入方法 -->
-		<!--
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-hystrix</artifactId>
-			</dependency>
-
-			<dependency>
-				<groupId>com.netflix.hystrix</groupId>
-				<artifactId>hystrix-javanica</artifactId>
-				<version>RELEASE</version>
-			</dependency>
-		-->
-		<!-- 导入断路器所需的依赖 -->
 	</dependencies>
 
 	<!--dependencyManagement用于管理依赖版本号-->

@@ -1,10 +1,3 @@
 spring:
   application:
     name: springcloud-sleuth-service2
-server:
-  port: 9899
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:9876/eureka/

@@ -1,6 +1,7 @@
 package com.define;
 
-import com.sun.istack.internal.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -15,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class SpringcloudSleuthService1Application {
 
-	private final Logger logger = Logger.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Bean
 	@LoadBalanced
