@@ -1,7 +1,6 @@
 package com.define.repository;
 
 import com.define.dto.Notice;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,6 @@ public class RestTemplateUtil {
     RestTemplate restTemplate;
 
     // 不带参数的get请求
-    @Test
     public void restTemplateGet() {
         Notice notice = restTemplate.getForObject("http://xxx.top/notice/list/1/5", Notice.class);
         System.out.println(notice);
