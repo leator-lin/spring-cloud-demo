@@ -1,4 +1,4 @@
-#·¢ÏÖ6666ÊÇ¹È¸èµÄ·Ç°²È«¶Ë¿Ú£¬ËùÒÔËùÓĞ¶Ë¿Ú¸Ä³É9¿ªÍ·£¬ËÄÎ»µÄ£¬·ÀÖ¹ÒòÎªÊ¹ÓÃµ½·Ç°²È«¶Ë¿Ú£¬µ¼ÖÂÎŞ·¨Ê¹ÓÃ
+#å‘ç°6666æ˜¯è°·æ­Œçš„éå®‰å…¨ç«¯å£ï¼Œæ‰€ä»¥æ‰€æœ‰ç«¯å£æ”¹æˆ9å¼€å¤´ï¼Œå››ä½çš„ï¼Œé˜²æ­¢å› ä¸ºä½¿ç”¨åˆ°éå®‰å…¨ç«¯å£ï¼Œå¯¼è‡´æ— æ³•ä½¿ç”¨
 server:
   port: 9880
 
@@ -14,18 +14,13 @@ eureka:
     service-url:
       defaultZone: http://localhost:9876/eureka/
 
-#ÒòÎªfeignÄ¬ÈÏÊ±¼äÊÇ1s£¬ËùÒÔ×îºÃÉèÖÃÏÂ³¬Ê±Ê±¼ä
-#ÇëÇó´¦ÀíµÄ³¬Ê±Ê±¼ä
 ribbon:
   ReadTimeout: 12000
-#ÇëÇóÁ¬½ÓµÄ³¬Ê±Ê±¼ä
   ConnectTimeout: 12000
   OkToRetryOnAllOperations: true
   MaxAutoRetriesNextServer: 2
   MaxAutoRetries: 1
 
-#HystrixµÄ³¬Ê±Ê±¼äĞèÒª´óÓÚRibbonµÄ³¬Ê±Ê±¼ä£¬·ñÔòHystrixÃüÁî³¬Ê±ºó£¬¸ÃÃüÁîÖ±½ÓÈÛ¶Ï
-#ÖØÊÔ»úÖÆ¾ÍÃ»ÓĞÈÎºÎÒâÒåÁË
 hystrix:
   command:
     default:
@@ -34,17 +29,16 @@ hystrix:
           thread:
             timeoutInMilliseconds: 20000
 
-
 feign:
-#  hystrix:
-#    enabled: false #È«¾Ö½ûÓÃHystrix
+  hystrix:
+    enabled: false
   compression:
     request:
-      enabled: true #¶ÔÇëÇó½øĞĞGZIPÑ¹Ëõ£¬¼õÉÙÍ¨ĞÅ¹ı³ÌÖĞµÄĞÔÄÜËğºÄ
-      mime-types: text/xml,application/xml,application/json #¿ªÆôÑ¹Ëõ¿ÉÒÔÓĞĞ§½ÚÔ¼ÍøÂç×ÊÔ´£¬µ«ÊÇ»áÔö¼ÓCPUÑ¹Á¦£¬½¨Òé°Ñ×îĞ¡Ñ¹ËõµÄÎÄµµ´óĞ¡ÊÊ¶Èµ÷´óÒ»µã
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
       min-request-size: 2048
     response:
-      enabled: true #¶ÔÏìÓ¦½øĞĞGZIPÑ¹Ëõ£¬¼õÉÙÍ¨ĞÅ¹ı³ÌÖĞµÄĞÔÄÜËğºÄ
+      enabled: true
 
 logging:
   level:
@@ -52,6 +46,3 @@ logging:
       define:
         service:
           SchedualService: DEBUG
-
-
-
