@@ -45,6 +45,19 @@
 			<version>3.1.0</version>
 		</dependency>
 
+		<!-- MyBatis-Plus 从 3.0.3 之后移除了代码生成器与模板引擎的默认依赖，需要手动添加相关依赖 -->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-generator</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-engine-core</artifactId>
+			<version>2.2</version>
+		</dependency>
+
 		<!-- 引入阿里数据库连接池 -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
