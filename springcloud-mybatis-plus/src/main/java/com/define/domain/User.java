@@ -1,4 +1,4 @@
-package com.define.springcloudmybatisplus.domain;
+package com.define.domain;
 
 import lombok.Data;
 

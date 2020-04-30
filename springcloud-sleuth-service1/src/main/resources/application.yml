@@ -11,7 +11,7 @@ spring:
     base-url: http://localhost:9411
   sleuth:
     sampler:
-      //以请求百分比的方式配置和收集跟踪信息，默认为0.1，代表收集10%的请求跟踪信息
+#      以请求百分比的方式配置和收集跟踪信息，默认为0.1，代表收集10%的请求跟踪信息
       probability: 1
 
 

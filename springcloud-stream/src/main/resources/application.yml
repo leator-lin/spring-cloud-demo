@@ -1,0 +1,17 @@
+#spring:
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: springcloud
+#    password: 123456
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: raw-sensor-data
+        output:
+          destination: raw-sensor-data
+
+server:
+  port: 9902

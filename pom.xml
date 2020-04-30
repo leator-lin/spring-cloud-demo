@@ -34,5 +34,7 @@
 		<module>springcloud-sleuth-service2</module>
 		<module>springcloud-zipkin-server</module>
 		<module>springcloud-kafka</module>
+		<module>springcloud-stream</module>
+		<module>springcloud-redis</module>
 	</modules>
 </project>

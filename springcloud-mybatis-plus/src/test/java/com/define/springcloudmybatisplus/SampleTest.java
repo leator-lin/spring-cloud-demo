@@ -1,7 +1,7 @@
 package com.define.springcloudmybatisplus;
 
-import com.define.springcloudmybatisplus.dao.UserMapper;
-import com.define.springcloudmybatisplus.domain.User;
+import com.define.dao.UserMapper;
+import com.define.domain.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

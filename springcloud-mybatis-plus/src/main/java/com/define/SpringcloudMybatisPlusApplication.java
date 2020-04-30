@@ -1,4 +1,4 @@
-package com.define.springcloudmybatisplus;
+package com.define;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +12,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  */
 @EnableEurekaClient
 @SpringBootApplication
-@MapperScan("com.define.springcloudmybatisplus.dao")
+@MapperScan("com.define.dao")
 public class SpringcloudMybatisPlusApplication {
 
 	public static void main(String[] args) {
