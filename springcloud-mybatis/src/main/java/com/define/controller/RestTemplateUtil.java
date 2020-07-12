@@ -1,6 +1,6 @@
 package com.define.controller;
 
-import com.define.dto.User;
+import com.define.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -35,22 +35,22 @@ public class RestTemplateUtil {
     }
 
     //----第二种用法返回对象类型
-    public User getForEntityUtil2() {
-        ResponseEntity<User> responseEntity = restTemplate.getForEntity(
-                "http://USER-SERVICE/user?name={1}", User.class, "Lea"
+    public UserDTO getForEntityUtil2() {
+        ResponseEntity<UserDTO> responseEntity = restTemplate.getForEntity(
+                "http://USER-SERVICE/user?name={1}", UserDTO.class, "Lea"
         );
-        User body = responseEntity.getBody();
+        UserDTO body = responseEntity.getBody();
         return body;
     }
 
     //----第三种用法中url的绑定参数使用Map类型
-    public User getForEntityUtil3() {
+    public UserDTO getForEntityUtil3() {
         Map<String, String> params = new HashMap<>();
         params.put("name", "Lea");
-        ResponseEntity<User> responseEntity = restTemplate.getForEntity(
-                "http://USER-SERVICE/user?name={name}", User.class, params
+        ResponseEntity<UserDTO> responseEntity = restTemplate.getForEntity(
+                "http://USER-SERVICE/user?name={name}", UserDTO.class, params
         );
-        User body = responseEntity.getBody();
+        UserDTO body = responseEntity.getBody();
         return body;
     }
 
@@ -84,10 +84,10 @@ public class RestTemplateUtil {
     //POST请求
     //----第一种用法，使用postForEntity函数，三种不同的重载实现跟getForEntity类似
     public String postForEntityUtil() {
-        User user = new User("Lea", 27);
+        UserDTO userDTO = new UserDTO("Lea", 27);
         //这里的String类型指的是请求响应体body内容的类型定义
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(
-                "http://USER-SERVICE/user", user, String.class
+                "http://USER-SERVICE/user", userDTO, String.class
         );
         String body = responseEntity.getBody();
         return body;
@@ -95,18 +95,18 @@ public class RestTemplateUtil {
 
     //----第二种用法，使用postForObject函数，三种不同的重载实现跟postForEntity类似
     public String postForObjectUtil() {
-        User user = new User("Lea", 27);
+        UserDTO userDTO = new UserDTO("Lea", 27);
         String body = restTemplate.postForObject(
-                "http://USER-SERVICE/user", user, String.class
+                "http://USER-SERVICE/user", userDTO, String.class
         );
         return body;
     }
 
     //----第三种用法，使用postForLocation函数
     public URI postForLocation() {
-        User user = new User("Lea", 27);
+        UserDTO userDTO = new UserDTO("Lea", 27);
         URI body = restTemplate.postForLocation(
-                "http://USER-SERVICE/user", user
+                "http://USER-SERVICE/user", userDTO
         );
         return body;
     }
@@ -114,10 +114,10 @@ public class RestTemplateUtil {
     //PUT请求
     public void put() {
         Long id = 10001L;
-        User user = new User("Lea", 27);
+        UserDTO userDTO = new UserDTO("Lea", 27);
         //put函数为void类型，所以没有返回内容
         restTemplate.put(
-                "http://USER-SERVICE/user/{1}", user, id
+                "http://USER-SERVICE/user/{1}", userDTO, id
         );
     }
 

@@ -1,6 +1,6 @@
 package com.define.dao;
 
-import com.define.dto.User;
+import com.define.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,5 +13,5 @@ import java.util.List;
  */
 @Mapper
 public interface UserDao {
-    List<User> getUsers();
+    List<UserDTO> getUsers();
 }

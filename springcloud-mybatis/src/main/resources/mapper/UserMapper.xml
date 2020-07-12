@@ -5,7 +5,7 @@
 
 <mapper namespace="com.define.dao.UserDao">
 
-    <select id="getUsers" resultType="User">
+    <select id="getUsers" resultType="com.define.dto.UserDTO">
         SELECT
             u.id,
             u.name,
@@ -13,7 +13,7 @@
             u.address,
             u.email
         FROM
-          user u
+          userDTO u
     </select>
 
 </mapper>

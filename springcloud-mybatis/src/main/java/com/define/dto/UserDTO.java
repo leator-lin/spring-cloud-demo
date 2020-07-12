@@ -2,10 +2,12 @@ package com.define.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @Data
-public class User {
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserDTO {
     private String username;
     private Integer age;
 }
