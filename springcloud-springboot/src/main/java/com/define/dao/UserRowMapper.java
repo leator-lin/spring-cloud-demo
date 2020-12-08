@@ -1,4 +1,4 @@
-package com.define.mapper;
+package com.define.dao;
 
 import com.define.dto.User;
 import org.springframework.jdbc.core.RowMapper;

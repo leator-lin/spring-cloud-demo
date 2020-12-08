@@ -9,7 +9,11 @@ import java.io.Serializable;
 public class Person implements Serializable {
     private String name;
     private String job;
+    private String sex;
     private int age;
+    private Hand hands;
+    private Leg legs;
+
     @Transient
     private transient String privacy;
 }

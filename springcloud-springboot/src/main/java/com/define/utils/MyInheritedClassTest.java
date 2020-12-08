@@ -4,7 +4,7 @@ import com.define.domain.IInheritedInterface;
 import com.define.domain.IInheritedInterfaceChild;
 import com.define.domain.MyInheritedClass;
 import com.define.domain.MyInheritedClassUseInterface;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
