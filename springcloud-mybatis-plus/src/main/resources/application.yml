@@ -11,16 +11,11 @@ spring:
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
 
+# 启动mybatis本身的log日志，这种方式更优，不用硬编码目录
 mybatis-plus:
-#  mapper-locations: classpath:mapper/*.xml
-  global-config:
-    db-config:
-      id-type: auto
-      field-strategy: NOT_EMPTY
-      db-type: MYSQL
-#  configuration:
-#    map-underscore-to-camel-case: true
-#    call-setters-on-nulls: true
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-  config-location: classpath:mybatis-config.xml
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#logging:
+#  level:
+#    com.define.mapper: debug

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.define.mapper.BigDataHandleMapper">
+
+    <select id = "getGroupIdByIdRange" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select group_id from t_db_group
+        where start_id &lt; #{id} and end_id &gt;= #{id};
+    </select>
+
+    <select id = "getTableNumByGroupId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(dbTable.table_id) from t_db db
+        INNER JOIN t_db_table dbTable ON dbTable.db_id = db.db_id
+        where db.group_id = #{groupId}
+    </select>
+
+    <select id="getDbIdByGroupIdAndHashValue" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select db.db_id from t_db db
+        where db.group_id = #{groupId}
+        and db.hash_value like CONCAT('%', #{hashIndex},'%')
+    </select>
+
+    <select id="getTableIdByIdRange" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select dbTable.table_id from t_db_table dbTable
+        where dbTable.db_id = #{dbId}
+        and start_id &lt; #{id} and end_id &gt;= #{id};
+    </select>
+
+    <select id="getTablenameByTableId" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select dbTable.table_name from t_db_table dbTable
+        where dbTable.table_id = #{tableId}
+    </select>
+
+    <insert id="saveDataByTablename" parameterType="map">
+        insert into ${tablename}(id,name,age,email,create_time,update_time,version)
+        value (#{user.id},#{user.name},#{user.age},#{user.email},#{user.createTime},#{user.updateTime},#{user.version});
+    </insert>
+</mapper>

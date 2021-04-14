@@ -2,4 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.define.mapper.TUserMapper">
 
+    <select id="pageList" resultType="com.define.entity.TUser">
+        select name,age from t_user
+    </select>
 </mapper>
